@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --accent: #000000;
+            --font: 'Inter', sans-serif;
+            --spacing: 8px;
+            --radius-card: 6px;
+            --radius-btn: 4px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--text-primary);
+            background-color: var(--bg);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 calc(var(--spacing) * 3);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 calc(var(--spacing) * 2.5);
+            height: 40px;
+            border-radius: var(--radius-btn);
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 200ms ease, color 200ms ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .btn-large {
+            height: 48px;
+            padding: 0 calc(var(--spacing) * 3);
+            font-size: 16px;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom-color 200ms ease;
+        }
+
+        .navbar.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing) * 1);
+        }
+
+        .nav-logo-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent);
+            border-radius: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: calc(var(--spacing) * 4);
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 200ms ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing) * 2);
+        }
+
+        /* Hero */
+        .hero {
+            padding: calc(var(--spacing) * 20) 0 calc(var(--spacing) * 12);
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-bottom: calc(var(--spacing) * 3);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: calc(var(--spacing) * 5);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: calc(var(--spacing) * 2);
+            margin-bottom: calc(var(--spacing) * 10);
+        }
+
+        .hero-mockup {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Logos */
+        .logos {
+            padding: calc(var(--spacing) * 6) 0;
+            border-bottom: 1px solid var(--border);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .logos p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: calc(var(--spacing) * 4);
+        }
+
+        .logos-grid {
+            display: flex;
+            justify-content: center;
+            gap: calc(var(--spacing) * 6);
+            flex-wrap: wrap;
+        }
+        
+        .logo-placeholder {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* Features */
+        .features {
+            padding: calc(var(--spacing) * 16) 0;
+        }
+
+        .section-header {
+            margin-bottom: calc(var(--spacing) * 8);
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            margin-bottom: calc(var(--spacing) * 2);
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: calc(var(--spacing) * 4);
+        }
+
+        .feature-card {
+            padding: calc(var(--spacing) * 4);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            background-color: var(--bg);
+            box-shadow: var(--shadow);
+            transition: border-color 200ms ease, transform 200ms ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            border-color: #d1d5db;
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: calc(var(--spacing) * 2);
+            display: inline-block;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: calc(var(--spacing) * 1);
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* How it works */
+        .how-it-works {
+            padding: calc(var(--spacing) * 16) 0;
+            background-color: #f9fafb;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing) * 12);
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing) * 10);
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: var(--border);
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: calc(var(--spacing) * 3);
+        }
+
+        .step-title {
+            font-size: 24px;
+            margin-bottom: calc(var(--spacing) * 2);
+        }
+
+        .step-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .step-mockup {
+            flex: 1;
+            aspect-ratio: 4 / 3;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: calc(var(--spacing) * 16) 0;
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: calc(var(--spacing) * 10);
+        }
+        
+        .pricing-header h2 {
+            font-size: 32px;
+            margin-bottom: calc(var(--spacing) * 2);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: calc(var(--spacing) * 4);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            padding: calc(var(--spacing) * 6);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-card);
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg);
+        }
+
+        .pricing-card.pro {
+            background-color: var(--accent);
+            color: #ffffff;
+            position: relative;
+        }
+
+        .pricing-card.pro h3, .pricing-card.pro p {
+            color: #ffffff;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background-color: var(--bg);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .pricing-tier {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: calc(var(--spacing) * 1);
+        }
+
+        .pricing-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: calc(var(--spacing) * 4);
+        }
+
+        .pricing-price {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: calc(var(--spacing) * 6);
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+        }
+        
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        
+        .pricing-card.pro .pricing-price span {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pricing-features {
+            margin-bottom: calc(var(--spacing) * 6);
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing) * 1.5);
+            margin-bottom: calc(var(--spacing) * 2);
+            font-size: 14px;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .pricing-card.pro .pricing-features li::before {
+            color: #ffffff;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+        }
+
+        .pricing-card.pro .btn {
+            background-color: var(--bg);
+            color: var(--accent);
+        }
+
+        .pricing-card.pro .btn:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* CTA Banner */
+        .cta-banner {
+            padding: calc(var(--spacing) * 14) 0;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .cta-banner h2 {
+            font-size: 36px;
+            margin-bottom: calc(var(--spacing) * 3);
+            color: #ffffff;
+        }
+
+        .cta-banner p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: calc(var(--spacing) * 5);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-banner .btn {
+            background-color: #ffffff;
+            color: var(--accent);
+        }
+        
+        .cta-banner .btn:hover {
+            background-color: #f3f4f6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: calc(var(--spacing) * 10) 0 calc(var(--spacing) * 6);
+            background-color: var(--bg);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: calc(var(--spacing) * 4);
+            margin-bottom: calc(var(--spacing) * 8);
+        }
+
+        .footer-col h4 {
+            font-size: 14px;
+            margin-bottom: calc(var(--spacing) * 3);
+        }
+
+        .footer-col ul li {
+            margin-bottom: calc(var(--spacing) * 1.5);
+        }
+
+        .footer-col ul a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: color 200ms ease;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: calc(var(--spacing) * 4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 500ms ease-out, transform 500ms ease-out;
+            will-change: opacity, transform;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .step, .step:nth-child(even) {
+                flex-direction: column;
+                gap: calc(var(--spacing) * 4);
+            }
+            .step-mockup {
+                width: 100%;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                width: 100%;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: calc(var(--spacing) * 2);
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon"></div>
+                Dashboard
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#pricing">Pricing</a>
+            </div>
+            <div class="nav-right">
+                <a href="#pricing" class="btn btn-primary">Get started free</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="animate-on-scroll">
+                <h1>Manage your business with clarity and speed.</h1>
+                <p>The all-in-one workspace for modern teams. Streamline your workflow, organize your projects, and scale your operations without the clutter.</p>
+                <div class="hero-ctas">
+                    <a href="#pricing" class="btn btn-primary btn-large">Get started free</a>
+                    <a href="#features" class="btn btn-secondary btn-large">Explore features</a>
+                </div>
+            </div>
+            <div class="animate-on-scroll" style="transition-delay: 100ms;">
+                <div class="hero-mockup">
+                    Hero Dashboard Mockup (16:9)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Logos -->
+    <section class="logos animate-on-scroll">
+        <div class="container">
+            <p>Trusted by teams at</p>
+            <div class="logos-grid">
+                <div class="logo-placeholder">Acme Corp</div>
+                <div class="logo-placeholder">GlobalTech</div>
+                <div class="logo-placeholder">Nebula</div>
+                <div class="logo-placeholder">Innovate</div>
+                <div class="logo-placeholder">Synergy</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2>Everything you need</h2>
+                <p>Powerful features packed into a clean, minimal interface.</p>
+            </div>
+            <div class="features-grid">
+                <div class="animate-on-scroll" style="transition-delay: 0ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">⚡️</span>
+                        <h3 class="feature-title">Lightning fast</h3>
+                        <p class="feature-desc">Built for speed. Navigate between projects and tasks without any loading screens.</p>
+                    </div>
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 100ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <h3 class="feature-title">Secure by default</h3>
+                        <p class="feature-desc">Enterprise-grade security with end-to-end encryption for all your sensitive data.</p>
+                    </div>
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 200ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">🤝</span>
+                        <h3 class="feature-title">Real-time sync</h3>
+                        <p class="feature-desc">Collaborate seamlessly. Changes sync across all devices instantly.</p>
+                    </div>
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 300ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">📊</span>
+                        <h3 class="feature-title">Advanced analytics</h3>
+                        <p class="feature-desc">Gain insights into your team's performance with customizable reporting dashboards.</p>
+                    </div>
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 400ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">🧩</span>
+                        <h3 class="feature-title">Integrations</h3>
+                        <p class="feature-desc">Connect with your favorite tools. Works seamlessly with Slack, GitHub, and more.</p>
+                    </div>
+                </div>
+                <div class="animate-on-scroll" style="transition-delay: 500ms;">
+                    <div class="feature-card">
+                        <span class="feature-icon">📱</span>
+                        <h3 class="feature-title">Mobile ready</h3>
+                        <p class="feature-desc">Stay productive on the go. Full native experience on iOS and Android.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. How it works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <h2>How it works</h2>
+            </div>
+            <div class="steps-container">
+                <div class="step animate-on-scroll">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Create your workspace</h3>
+                        <p class="step-desc">Set up your organizational hub in seconds. Invite team members and configure access controls with just a few clicks.</p>
+                    </div>
+                    <div class="step-mockup">Step 1 Mockup (4:3)</div>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">Organize your data</h3>
+                        <p class="step-desc">Import existing data or start fresh. Use custom views to visualize your projects exactly how you want.</p>
+                    </div>
+                    <div class="step-mockup">Step 2 Mockup (4:3)</div>
+                </div>
+                <div class="step animate-on-scroll">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Scale effortlessly</h3>
+                        <p class="step-desc">As your team grows, the dashboard adapts. Automated workflows keep everything running smoothly.</p>
+                    </div>
+                    <div class="step-mockup">Step 3 Mockup (4:3)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="pricing-header animate-on-scroll">
+                <h2>Simple pricing</h2>
+                <p>Start for free, upgrade when you need more power.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card animate-on-scroll" style="transition-delay: 0ms;">
+                    <h3 class="pricing-tier">Starter</h3>
+                    <p class="pricing-desc">Perfect for individuals and small teams.</p>
+                    <div class="pricing-price">$0<span>/mo</span></div>
+                    <ul class="pricing-features">
+                        <li>Up to 5 team members</li>
+                        <li>Basic analytics</li>
+                        <li>Community support</li>
+                        <li>1GB storage</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">Get started</a>
+                </div>
+                <div class="pricing-card pro animate-on-scroll" style="transition-delay: 100ms;">
+                    <div class="pricing-badge">Most popular</div>
+                    <h3 class="pricing-tier">Pro</h3>
+                    <p class="pricing-desc">For growing teams that need more control.</p>
+                    <div class="pricing-price">$12<span>/mo</span></div>
+                    <ul class="pricing-features">
+                        <li>Unlimited team members</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority 24/7 support</li>
+                        <li>Unlimited storage</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Upgrade to Pro</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CTA banner -->
+    <section class="cta-banner animate-on-scroll">
+        <div class="container">
+            <h2>Ready to transform your workflow?</h2>
+            <p>Join thousands of teams already using our platform to do their best work.</p>
+            <a href="#pricing" class="btn btn-primary btn-large">Get started for free</a>
+        </div>
+    </section>
+
+    <!-- 8. Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid animate-on-scroll">
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Legal</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Dribbble</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom animate-on-scroll">
+                <p>&copy; 2026 Dashboard Inc. All rights reserved.</p>
+                <p>Designed with clean aesthetics.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            
+            const handleScroll = () => {
+                if (window.scrollY > 60) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            };
+            
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Initial check
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: stop observing once animated to keep it visible
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
