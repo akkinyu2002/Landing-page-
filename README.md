@@ -37,7 +37,3 @@ npx serve .
 ├── .gitignore
 └── README.md
 ```
-
-## License
-
-MIT
